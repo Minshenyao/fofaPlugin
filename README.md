@@ -34,7 +34,7 @@
 
 ```bash
 # 克隆仓库
-git clone <repository-url>
+git clone https://github.com/Minshenyao/fofaPlugin.git
 cd fofaPlugin
 
 # 编译打包
