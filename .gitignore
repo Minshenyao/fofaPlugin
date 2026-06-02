@@ -1,0 +1,52 @@
+# ---------- Maven ----------
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ---------- Java ----------
+*.class
+*.jar
+*.war
+*.ear
+*.log
+hs_err_pid*
+replay_pid*
+
+# ---------- IntelliJ IDEA ----------
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ---------- Eclipse ----------
+.project
+.classpath
+.settings/
+bin/
+
+# ---------- VS Code ----------
+.vscode/
+
+# ---------- macOS ----------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# ---------- Claude Code ----------
+# 个人本地配置（含本地路径/权限白名单），不纳入版本控制
+.claude/settings.local.json
+
+# ---------- 本地敏感配置 ----------
+# FOFA 配置（含 API Key）默认位于 ~/.config/burp_fofa_config.yaml，不在仓库内；
+# 如有放入项目目录的本地副本，请一并忽略
+burp_fofa_config.yaml

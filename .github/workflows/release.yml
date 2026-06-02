@@ -1,0 +1,47 @@
+name: Release
+
+# 手动触发：在 GitHub 仓库的 Actions 页面选择本工作流，点击 "Run workflow"，
+# 填入版本号后自动编译并把插件 jar 发布到 GitHub Release。
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release 版本号 / tag (如 v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+permissions:
+  contents: write   # 允许创建 Release 并上传附件
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # 将 pom 版本设为输入的版本号（去掉前导 v），使产物名 Fofa-<版本>-... 与 Release 一致
+      - name: Set project version from input
+        env:
+          TAG: ${{ inputs.tag }}
+        run: mvn -B versions:set -DnewVersion="${TAG#v}" -DgenerateBackupPoms=false
+
+      - name: Build with Maven
+        run: mvn -B clean package
+
+      - name: Create GitHub Release and upload jar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          gh release create "$TAG" \
+            target/Fofa-*-jar-with-dependencies.jar \
+            --title "FOFA Burp Plugin $TAG" \
+            --generate-notes
